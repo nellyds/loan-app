@@ -76,9 +76,15 @@ export default {
   },
   methods: {
       formSubmit: function(){
-          window.alert(this.creditRating);
-          window.alert(this.annualIncome);
-          window.alert(this.carSelectedMake);
+            const baseURI = 'http://127.0.0.1:5000/loan'
+      this.$http.post(baseURI, {
+          credit: this.creditRating,
+          income: this.annualIncome,
+          price: 20000
+      })
+      .then((result) => {
+        console.log(result.data)
+      })
           this.$router.push({path: 'disqualified'})
       },
       creditCheck(){},
