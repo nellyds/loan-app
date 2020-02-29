@@ -1,6 +1,7 @@
 <template>
   <div id="Success">
-        <v-form>
+        <div v-if="qualified">
+        <v-form action="#"  @submit.prevent="formSubmit">
        <v-text-field
         label="E-mail"
         v-model="email"
@@ -25,8 +26,11 @@
         @blur="$v.password2.$touch()"
         required
       ></v-text-field>
+      <button type="submit">Create a new account</button>
+      <h3 v-if="notFinished" > Please fill out all required fields </h3>
         </v-form>
-
+        </div>
+        <div v-else> You reached this page in error </div>
   </div>
 </template>
 
@@ -37,8 +41,8 @@ export default {
     name: "Success",
   data() {
     return {
-      errors: false,
-      empty: true,
+      qualified: this.$store.state.isQualified,
+      notFinished: null,
         email: null,
         password1: null,
         password2: null    
@@ -64,10 +68,12 @@ export default {
         required,
         sameAsPassword: sameAs("password1")
       }
-    
   },
   methods: {
-
+      formSubmit: function(){
+        if (this.$v.$invalid) {
+          this.notFinished = true
+        }
   },
   computed: {
       password1Errors() {
@@ -92,27 +98,6 @@ export default {
       return errors
     }
   }
+}
 };
 </script>
-
-<style>
-
-label {
-  margin: 20px 0 10px;
-  display: block;
-}
-
-.error {
-  font-size: 12px;
-  position: absolute;
-}
-
-.success {
-  font-size: 12px;
-  position: absolute;
-}
-section {
-  padding-bottom: 30px;
-  position: relative;
-}
-</style>

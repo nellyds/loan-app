@@ -1,6 +1,7 @@
 <template>
   <v-container>
-  {{message}}
+  After reviewing a preliminary view of your finances, you do not qualifiy for a loan for this vehicle.  
+  <button v-on:click="restart" type="submit">Submit a new application</button>
   </v-container>
 </template>
 
@@ -13,13 +14,8 @@ export default {
       }
   },
   methods: {
-      reApply: function(){
-          this.$router.push({})
-      }
-  },
-  beforeMount: {
-      getMessage: function(){
-          this.message = this.$store.state.applicationMessage
+      restart: function(){
+          this.$router.push({path:"apply"})
       }
   },
 }

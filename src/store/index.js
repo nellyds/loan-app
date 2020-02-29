@@ -6,32 +6,31 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     isQualified: false,
-    submissionComplete: false,
     applicationMessage: '',
     canyoneros: [
       {
           model: 'F-Series',
-          cost: 20000.00
+          cost: 65000
         },
           {
           model: 'H-Series',
-          cost: 18000.00
+          cost: 17000
       }
       ],
     geos: [
       {
           model: 'The Ned',
-          cost: 200000
+          cost: 2000
           },
           {
           model: 'The Maude',
-          cost: 20.00000
+          cost: 10000
       }
       ],
     hondas: [          
       {
           model: 'The Chaulmers',
-          cost: 20000.00
+          cost: 1500
       }
       ]
   },

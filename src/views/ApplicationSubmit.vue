@@ -1,7 +1,6 @@
 <template>
   <div class="applicationSubmit">
       <v-form action="#"  @submit.prevent="formSubmit">
-            <v-form @submit.prevent="financesSubmit">
             <v-text-field
               v-model="creditRating"
               label="Credit Rating"
@@ -10,21 +9,24 @@
               @blur="$v.creditRating.$touch()"
               required
             ></v-text-field>
+
             <v-text-field
               v-model="annualIncome"
-              label="annualIncome"
+              label="Annual Income"
               :error-messages="incomeErrors"
               @input="$v.annualIncome.$touch()"
               @blur="$v.annualIncome.$touch()"
               required
-            ></v-text-field>     
-            <button type="submit">Submit Finances</button>
-            </v-form>
+            ></v-text-field> 
+
             <v-form @submit.prevent="makeSubmit">
             <v-select
               v-model="make"
               v-bind:items="makeList"
               item-text="make"
+              :error-message="selectErrors"
+              @change="$v.make.$touch()"
+              @blur="$v.make.$touch()"
               >
             <template slot="selection" scope="data">
               {{data.item.make}}
@@ -32,11 +34,14 @@
             </v-select>
                  <button type="submit">Select a Make</button>
             </v-form>
+
             <v-select
                 v-show="selectedMake === 'geos'"
                 v-model="car"
                 v-bind:items="geos"
-                :rules="[v => !!v || 'Item is required']"
+                :error-message="selectMakeErrors"
+                @change="$v.car.$touch()"
+                @blur="$v.car.$touch()"
                 item-text="model"
                 item-value="cost"
                 required
@@ -49,7 +54,9 @@
                 v-show="selectedMake === 'canyoneros'"
                 v-model="car"
                 v-bind:items="canyoneros"
-                :rules="[v => !!v || 'Item is required']"
+                :error-message="selectMakeErrors"
+                @change="$v.car.$touch()"
+                @blur="$v.car.$touch()"
                 item-text="model"
                 item-value="cost"
                 required
@@ -62,7 +69,9 @@
                 v-show="selectedMake === 'hondas'"
                 v-model="car"
                 v-bind:items="hondas"
-                :rules="[v => !!v || 'Item is required']"
+                :error-message="selectMakeErrors"
+                @change="$v.car.$touch()"
+                @blur="$v.car.$touch()"
                 item-text="model"
                 item-value="cost"
                 required
@@ -71,7 +80,8 @@
                   {{ data.item.model }} - {{data.item.cost}}
                 </template>
             </v-select>
-      <button type="submit">Submit</button>
+      <button type="submit">Submit Preliminary Application</button>
+      <h3 v-if="notFinished" > Please fill in all fields </h3>
       </v-form>
     
   </div>
@@ -85,6 +95,9 @@ export default {
   },
   data() {
       return {
+        notFinished: null,
+        errors: false,
+        empty: true,
         car: {
         model:'',
         price:''
@@ -110,13 +123,18 @@ export default {
                     },
     annualIncome: { required, 
                     between: between(0,1000000)
-                  }
+                  },
+    make: {
+      required
+    },
+    car: {
+      required
+    }
   },
   methods: {
       formSubmit: function(){
+        if (!this.$v.$invalid) {      
         const baseURI = 'http://127.0.0.1:5000/loan'
-        window.alert('hi')
-        window.alert(this.creditRating + ' ' + this.annualIncome + ' ' + this.car)
         this.$http.post(baseURI, {
           credit: this.creditRating,
           income: this.annualIncome,
@@ -124,15 +142,20 @@ export default {
         })
         .then((result) => {
           this.$store.commit({type: 'applicationReported', result: result.data.qualified, message: result.data.message})
-          window.alert(this.$store.state.isQualified)
+        }).catch(() => {
+          window.alert('500 error')
         }) 
+        if (this.$store.state.isQualified === false){
           this.$router.push({path: 'next'})
+        } 
+        if (this.$store.state.isQualified === true){
+          this.$router.push({path: 'success'})
+        }
+      } else this.notFinished = true
       },
       makeSubmit: function(){
         this.selectedMake = this.make
       },
-      financesSubmit: function(){     
-      }
   },
   computed: {
     creditErrors(){
@@ -147,6 +170,18 @@ export default {
       if (!this.$v.annualIncome.$dirty) return errors
       !this.$v.annualIncome.required && errors.push('Annual Income is required')
       !this.$v.annualIncome.between && errors.push('Invalid income range')
+      return errors
+    },
+    selectedMakeErrors() {
+      const errors = []
+      if (!this.$v.car.$dirty) return errors
+      !this.$v.car.required && errors.push('Selection required')
+      return errors
+    },
+    selectErrors() {
+      const errors = []
+      if (!this.$v.make.$dirty) return errors
+      !this.$v.make.required && errors.push('Selection required')
       return errors
     }
   },
