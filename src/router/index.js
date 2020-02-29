@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Landing from "../views/Landing.vue";
 import ApplicationSubmit from "../views/ApplicationSubmit.vue";
-import Disqualified from "../views/Disqualified.vue"
+import NextStep from "../views/NextStep.vue";
 
 Vue.use(VueRouter);
 
@@ -17,8 +17,8 @@ const routes = [
     component: ApplicationSubmit
   },
   {
-    path:"/disqualified",
-    component: Disqualified
+    path:"/next",
+    component: NextStep
   }
 
 ];

@@ -1,7 +1,6 @@
 <template>
   <v-app>
 
-dgfdgs
 
         <router-view></router-view>
 
