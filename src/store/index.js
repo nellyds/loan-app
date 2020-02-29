@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     isQualified: false,
     submissionComplete: false,
+    applicationMessage: '',
     canyoneros: [
       {
           model: 'F-Series',
@@ -36,6 +37,7 @@ export default new Vuex.Store({
   },
   mutations: {
       applicationReported(state, argument) {
+        this.state.applicationMessage = argument.message
         if (argument.result === false){
           this.state.isQualified = false
         } else this.state.isQualified = true

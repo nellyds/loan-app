@@ -22,6 +22,12 @@ export default {
           applicationCompleted: this.$store.state.submissionComplete
       }
   },
+  beforeMount: {
+      getQualified(){
+              window.alert(this.$store.state.isQualified)
+      this.qualified = this.$store.state.isQualified 
+      }
+  },
   components: {
       Success,
       Disqualified
