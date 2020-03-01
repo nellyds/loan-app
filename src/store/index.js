@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     isQualified: false,
     applicationMessage: "",
+    apiUrl: 'http://127.0.0.1:5000/',
     canyoneros: [
       {
         model: "F-Series",
@@ -43,9 +44,7 @@ export default new Vuex.Store({
       this.state.submissionComplete = true;
     },
     errorReported(state, argument){
-      window.alert(argument.error)
       this.state.applicationMessage = argument.error;
-      window.alert(this.state.applicationMessage)
     }
   },
   actions: {},

@@ -87,13 +87,14 @@
 </template>
 
 <script>
-import { required, between } from "vuelidate/lib/validators";
+import { required, between , integer, numeric} from "vuelidate/lib/validators";
 export default {
   name: "ApplicationSubmit",
   components: {},
   data() {
     return {
       notFinished: null,
+      apiUrl: this.$store.state.apiUrl,
       errors: false,
       empty: true,
       car: {
@@ -112,8 +113,8 @@ export default {
     };
   },
   validations: {
-    creditRating: { required, between: between(300, 850) },
-    annualIncome: { required, between: between(0, 1000000) },
+    creditRating: { required, numeric, integer, between: between(300, 850) },
+    annualIncome: { required, integer, between: between(0, 1000000) },
     make: {
       required
     },
@@ -124,7 +125,7 @@ export default {
   methods: {
     formSubmit: function() {
       if (!this.$v.$invalid) {
-        const baseURI = "http://127.0.0.1:5000/loan";
+        const baseURI = this.apiUrl+ 'loan';
         this.$http
           .post(baseURI, {
             credit: this.creditRating,
@@ -163,6 +164,8 @@ export default {
       !this.$v.creditRating.required &&
         errors.push("Credit Rating is required");
       !this.$v.creditRating.between && errors.push("Invalid range");
+      !this.$v.creditRating.integer && errors.push("Invalid input");
+      !this.$v.creditRating.numeric && errors.push("Invalid input");
       return errors;
     },
     incomeErrors() {
@@ -171,6 +174,7 @@ export default {
       !this.$v.annualIncome.required &&
         errors.push("Annual Income is required");
       !this.$v.annualIncome.between && errors.push("Invalid income range");
+      !this.$v.annualIncome.integer && errors.push("Invalid input");
       return errors;
     },
     selectedMakeErrors() {

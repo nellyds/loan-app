@@ -1,6 +1,7 @@
 <template>
   <div id="Success">
     <div v-if="qualified">
+      <h3> {{message}} </h3>
       <v-form action="#" @submit.prevent="formSubmit">
         <v-text-field
           label="E-mail"
@@ -35,7 +36,7 @@
 </template>
 
 <script>
-import { required, email, sameAs } from "vuelidate/lib/validators";
+import { required, email, sameAs , } from "vuelidate/lib/validators";
 
 export default {
   name: "Success",
@@ -45,8 +46,14 @@ export default {
       notFinished: null,
       email: null,
       password1: null,
-      password2: null
+      password2: null,
+      message: null,
     };
+  },
+  beforeMount: {
+      getMessage: function(){
+      this.message = this.$store.state.applicationMessage
+    }
   },
   validations: {
     email: {
@@ -73,8 +80,8 @@ export default {
     formSubmit: function() {
       if (this.$v.$invalid) {
         this.notFinished = true;
-      }
-    },
+      } 
+    }},
     computed: {
       password1Errors() {
         const errors = [];
@@ -99,6 +106,5 @@ export default {
         return errors;
       }
     }
-  }
-};
+  };
 </script>
