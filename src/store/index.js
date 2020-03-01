@@ -43,7 +43,9 @@ export default new Vuex.Store({
       this.state.submissionComplete = true;
     },
     errorReported(state, argument){
-      this.state.applicationMessge = argument.error;
+      window.alert(argument.error)
+      this.state.applicationMessage = argument.error;
+      window.alert(this.state.applicationMessage)
     }
   },
   actions: {},
