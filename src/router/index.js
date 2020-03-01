@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Landing from "../views/Landing.vue";
 import ApplicationSubmit from "../views/ApplicationSubmit.vue";
 import NextStep from "../views/NextStep.vue";
-import Success from "../views/Success.vue"
+import Success from "../views/Success.vue";
 
 Vue.use(VueRouter);
 
@@ -18,11 +18,11 @@ const routes = [
     component: ApplicationSubmit
   },
   {
-    path:"/next",
+    path: "/next",
     component: NextStep
   },
   {
-    path:"/success",
+    path: "/success",
     component: Success
   }
 ];

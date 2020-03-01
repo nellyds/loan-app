@@ -1,14 +1,10 @@
 <template>
-  <div class="accountCreate">
-  </div>
+  <div class="accountCreate"></div>
 </template>
 
 <script>
-
-
 export default {
   name: "AccountCreate",
-  components: {
-  }
+  components: {}
 };
 </script>

@@ -4,10 +4,10 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import VueRouter from "vue-router";
-import Vuelidate from 'vuelidate';
-import axios from 'axios'
+import Vuelidate from "vuelidate";
+import axios from "axios";
 
-Vue.prototype.$http = axios
+Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
 Vue.use(VueRouter);
 Vue.use(Vuelidate);

@@ -1,18 +1,15 @@
 <template>
   <v-app>
-        <div class="content">
-        <router-view></router-view>
-        </div>
-
+    <div class="content">
+      <router-view></router-view>
+    </div>
   </v-app>
 </template>
 <script>
-
 export default {
   name: "App",
 
-  components: {
-  },
+  components: {},
 
   data: () => ({
     //
@@ -20,7 +17,7 @@ export default {
 };
 </script>
 <style scoped>
-.content{
+.content {
   width: 40%;
   margin: auto;
   border: solid 2px black;
